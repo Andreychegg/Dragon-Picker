@@ -6,6 +6,8 @@ using TMPro;
 public class EnergyShield : MonoBehaviour
 {
     public TextMeshProUGUI scoreGT;
+    public AudioSource audioSource;
+    public AudioClip bombExplosion;
 
     private void Start()
     {
@@ -29,9 +31,17 @@ public class EnergyShield : MonoBehaviour
         if (Collided.tag == "Dragon Egg")
         {
             Destroy(Collided);
+            int score = int.Parse(scoreGT.text);
+            score += 1;
+            scoreGT.text = score.ToString();
+            audioSource = GetComponent<AudioSource>();
+            audioSource.Play();
         }
-        int score = int.Parse(scoreGT.text);
-        score += 1;
-        scoreGT.text = score.ToString();
+        else if (Collided.tag == "Bomb") {
+            AudioSource.PlayClipAtPoint(bombExplosion, new Vector3(0, 5, 10));
+            Destroy(Collided);
+            DragonPicker apScript = Camera.main.GetComponent<DragonPicker>();
+            apScript.BombDestroyed();
+        }
     }
 }

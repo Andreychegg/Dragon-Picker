@@ -4,22 +4,43 @@ using UnityEngine;
 
 public class EnemyDragon : MonoBehaviour
 {
-    public GameObject dragonEggPrefag;
+    public GameObject dragonEggPrefab;
+    public GameObject bombPrefab;
     public float speed = 1;
-    public float timeBetweenEggDrops = 1f;
+    public float timeBetweenItemDrops = 2f;
     public float leftRightDistance = 10f;
     public float chanceDirection = 0.1f;
     void Start()
     {
-        Invoke("DropEgg", 2f);
+        Invoke("ChooseItem", timeBetweenItemDrops);
+    }
+
+    void ChooseItem()
+    {
+        var rnd = new System.Random();
+        int number = rnd.Next(1, 3);
+        if (number == 1) {
+            DropEgg();
+        }
+        else {
+            DropBomb();
+        }
+        Invoke("ChooseItem", timeBetweenItemDrops);
     }
 
     void DropEgg()
     {
         Vector3 myVector = new Vector3(0.0f, 5.0f, 0.0f);
-        GameObject egg = Instantiate<GameObject>(dragonEggPrefag);
+        GameObject egg = Instantiate<GameObject>(dragonEggPrefab);
         egg.transform.position = transform.position + myVector;
-        Invoke("DropEgg", timeBetweenEggDrops);
+    }
+
+    void DropBomb()
+    {
+
+        Vector3 myVector = new Vector3(0.0f, 5.0f, 0.0f);
+        GameObject bomb = Instantiate<GameObject>(bombPrefab);
+        bomb.transform.position = transform.position + myVector;
     }
 
     // Update is called once per frame

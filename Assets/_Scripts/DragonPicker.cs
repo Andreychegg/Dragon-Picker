@@ -45,4 +45,21 @@ public class DragonPicker : MonoBehaviour
             SceneManager.LoadScene("_0Scene");
         }
     }
+
+    public void BombDestroyed()
+    {
+        GameObject[] tBombArray = GameObject.FindGameObjectsWithTag("Bomb");
+        foreach (GameObject tGO in tBombArray)
+        {
+            Destroy(tGO);
+        }
+        int shieldIndex = shieldList.Count - 1;
+        GameObject tShieldGo = shieldList[shieldIndex];
+        shieldList.RemoveAt(shieldIndex);
+        Destroy(tShieldGo);
+
+        if (shieldList.Count == 0) {
+            SceneManager.LoadScene("_0Scene");
+        }
+    }
 }
